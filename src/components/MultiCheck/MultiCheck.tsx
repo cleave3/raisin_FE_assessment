@@ -58,11 +58,15 @@ const MultiCheck: React.FunctionComponent<Props> = ({
 
     const isAllSelected = values.length === options?.length;
 
+    const showSelectAllCheckbox = options.length > 0;
+
     return (
         <>
             <div className="multiCheck-label">{label}</div>
             <div className="multiCheck" style={{ columnCount: columns }}>
-                <CheckBox label={"Select all"} checked={isAllSelected} onChange={handleSelectAll} />
+                {showSelectAllCheckbox ? (
+                    <CheckBox label={"Select all"} checked={isAllSelected} onChange={handleSelectAll} />
+                ) : null}
                 {options.map(({ label, value }, i) => (
                     <CheckBox key={i} label={label} value={value} checked={isChecked(value)} onChange={handleChange} />
                 ))}

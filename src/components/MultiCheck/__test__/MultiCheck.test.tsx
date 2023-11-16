@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { cleanup, render, getAllByText, fireEvent, getByLabelText } from "@testing-library/react";
+import { cleanup, render, getAllByText, fireEvent, getByLabelText, getByText } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Multicheck from "..";
 
@@ -31,6 +31,12 @@ describe("MultiCheck", () => {
         it("should render the correct number of checkboxes", () => {
             const { container } = render(<Multicheck options={TEST_OPTIONS} label={label} />);
             expect(container.querySelectorAll(".app-checkbox").length).toEqual(TEST_OPTIONS.length + 1);
+        });
+
+        it("should not render the select all checkbox when options is less than one", () => {
+            const { container } = render(<Multicheck options={[]} label={label} onChange={onChange} />);
+
+            expect(container.querySelectorAll(".app-checkbox").length).toBeLessThan(1);
         });
     });
 

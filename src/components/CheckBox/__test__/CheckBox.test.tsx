@@ -12,6 +12,7 @@ describe("Checkbox", () => {
         const { container } = render(<Checkbox />);
         expect(container.querySelector("label")).toBeTruthy();
         expect(container.querySelector(".app-checkbox-label")).toBeTruthy();
+        expect(container.querySelector(".app-checkbox")?.id).toBeTruthy();
         expect(container.querySelector(".app-checkbox")).toBeInTheDocument();
     });
 });
