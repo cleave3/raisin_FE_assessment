@@ -1,11 +1,11 @@
-import './MultiCheck.css';
-
-import React from 'react';
+import React, { ChangeEvent } from "react";
+import CheckBox from "../CheckBox";
+import "./MultiCheck.css";
 
 export type Option = {
-  label: string,
-  value: string
-}
+    label: string;
+    value: string;
+};
 
 /**
  * Notice:
@@ -20,17 +20,55 @@ export type Option = {
  *                             they should be passed to outside
  */
 type Props = {
-  label?: string,
-  options: Option[],
-  columns?: number,
-  values?: string[]
-  onChange?: (options: Option[]) => void,
-}
+    label?: string;
+    options: Option[];
+    columns?: number;
+    values?: string[];
+    onChange?: (options: Option[]) => void;
+};
 
-const MultiCheck: React.FunctionComponent<Props> = (props): JSX.Element => {
-  return <div className='MultiCheck'>
-    {/* TODO */}
-  </div>
-}
+const MultiCheck: React.FunctionComponent<Props> = ({
+    label,
+    options = [],
+    columns = 1,
+    values = [],
+    onChange,
+}): JSX.Element => {
+    const handleChange = ({ target: { checked, value } }: ChangeEvent<HTMLInputElement>) => {
+        let currentOptions: Option[] = [];
+
+        if (checked) {
+            currentOptions = options.filter(option => [...values, value].includes(option.value));
+        } else {
+            currentOptions = options.filter(option => values.includes(option.value) && option.value !== value);
+        }
+
+        onChange?.(currentOptions);
+    };
+
+    const handleSelectAll = ({ target: { checked } }: ChangeEvent<HTMLInputElement>) => {
+        let currentOptions: Option[] = [];
+
+        if (checked) currentOptions = options;
+
+        onChange?.(currentOptions);
+    };
+
+    const isChecked = (value: string) => values.includes(value);
+
+    const isAllSelected = values.length === options?.length;
+
+    return (
+        <>
+            <div className="multiCheck-label">{label}</div>
+            <div className="multiCheck" style={{ columnCount: columns }}>
+                <CheckBox label={"Select all"} checked={isAllSelected} onChange={handleSelectAll} />
+                {options.map(({ label, value }, i) => (
+                    <CheckBox key={i} label={label} value={value} checked={isChecked(value)} onChange={handleChange} />
+                ))}
+            </div>
+        </>
+    );
+};
 
 export default MultiCheck;
