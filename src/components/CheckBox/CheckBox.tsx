@@ -3,13 +3,13 @@ import "./CheckBox.css";
 
 type CheckBoxProps = InputHTMLAttributes<HTMLInputElement> & { label?: ReactNode };
 
-const CheckBox: React.FunctionComponent<CheckBoxProps> = ({ label, className = "", ...props }) => {
+const CheckBox: React.FunctionComponent<CheckBoxProps> = ({ label, ...props }) => {
     // ensure there is always an ID to enable custom checkox use label for check/uncheck action
     const id = useId();
     const inputId = props?.id ?? id;
     return (
         <div className="app-checkbox-container">
-            <input type="checkbox" id={inputId} className={`app-checkbox ${className}`} {...props} />
+            <input {...props} type="checkbox" id={inputId} className={`app-checkbox`} />
             <label htmlFor={inputId} className="app-checkbox-label">
                 {label}
             </label>
