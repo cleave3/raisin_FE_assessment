@@ -1,4 +1,4 @@
-import { useState, FunctionComponent } from 'react'
+import React, { useState } from 'react'
 import { MultiCheck } from './components'
 import { Option } from './components/MultiCheck'
 
@@ -16,7 +16,7 @@ const options: Option[] = [
 
 const defaultValues: string[] = ['333', '555', '666']
 
-const App: FunctionComponent = (): JSX.Element => {
+const App: React.FunctionComponent = (): JSX.Element => {
   const [selectedValues, setSelectedValues] = useState<string[]>(defaultValues)
 
   function onSelectedOptionsChange(options: Option[]): void {

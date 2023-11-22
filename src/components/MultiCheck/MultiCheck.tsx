@@ -81,7 +81,7 @@ const MultiCheck: React.FunctionComponent<Props> = ({
   }
 
   const handleSelectAll = ({ target: { checked } }: ChangeEvent<HTMLInputElement>): void => {
-    const currentOptions: Option[] = checked ? nonDisabledOptions : unCheckableOptions
+    const currentOptions: Option[] = checked ? nonDisabledOptions : [...unCheckableOptions]
     onChange?.(currentOptions)
   }
 
