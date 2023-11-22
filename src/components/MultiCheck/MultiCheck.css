@@ -1,5 +1,9 @@
 .multiCheck-label {
-    font-size: clamp(16px, 3vw, 20px);
-    font-weight: bold;
-    margin-bottom: 20px;
+  font-size: clamp(16px, 3vw, 20px);
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.multiCheck {
+  column-count: attr(data-column);
 }

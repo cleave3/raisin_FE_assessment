@@ -1,2 +1,2 @@
-export { default } from "./MultiCheck";
-export * from "./MultiCheck";
+export { default } from './MultiCheck'
+export * from './MultiCheck'

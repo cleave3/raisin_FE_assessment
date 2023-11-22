@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultiCheck initialize renders matches snapshot 1`] = `
+<div>
+  <div
+    class="multiCheck-label"
+  >
+    Test-label
+  </div>
+  <div
+    class="multiCheck"
+    style="column-count: 1;"
+  />
+</div>
+`;

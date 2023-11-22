@@ -38,20 +38,21 @@ Implement a TypeScript React function component.
 1. **Performance Requirement:**
    * Add proper React hooks in the component to optimize unnecessary executions or renders.
 
-## Development:
+## Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Testing:
+## Testing
 
 ```bash
 npm test
 ```
 
 **Additional Notes:**
+
 1. Use native HTML checkboxes (`<input type="checkbox" />`) as the base, the style doesn't need to be exactly the same.
 1. Focus testing efforts on `MultiCheck` and related components and code. No need to test `App.tsx`.
 1. Adhere to best TypeScript practices throughout the development process.
