@@ -6,6 +6,8 @@ export type Option = {
   label: string
   value: string
   disabled?: boolean // added this prop for a case where an option needs to be disabled
+  checked?: boolean
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void // optional onChange handler
 }
 
 /**
@@ -19,6 +21,9 @@ export type Option = {
  * @param {number} columns - default value is 1
  * @param {Function} onChange - when checked options are changed,
  *                             they should be passed to outside
+ * @param {boolean} showSelectAll - determine if the select all checkbox show be added to list
+ * @param {React.CSSProperties} React.CSSProperties - style the multicheck label
+ * @param {React.CSSProperties} containerStyle - style the multicheck container
  */
 type Props = {
   label?: string
@@ -26,6 +31,8 @@ type Props = {
   columns?: number
   values?: string[]
   onChange?: (options: Option[]) => void
+  showSelectAll?: boolean
+  selectAllLabel?: string
   labelStyle?: React.CSSProperties
   containerStyle?: React.CSSProperties
 }
@@ -36,6 +43,8 @@ const MultiCheck: React.FunctionComponent<Props> = ({
   columns = 1,
   values = [],
   onChange,
+  showSelectAll = true,
+  selectAllLabel = 'Select All',
   labelStyle,
   containerStyle
 }): JSX.Element => {
@@ -65,7 +74,7 @@ const MultiCheck: React.FunctionComponent<Props> = ({
 
   const isAllSelected = values.length === nonDisabledOptions?.length
 
-  const showSelectAllCheckbox = nonDisabledOptions.length > 0
+  const showSelectAllCheckbox = nonDisabledOptions.length > 0 && showSelectAll
 
   const selectOption = (value: string): Option[] => {
     return nonDisabledOptions.filter((option) => [...values, value].includes(option.value))
@@ -85,15 +94,32 @@ const MultiCheck: React.FunctionComponent<Props> = ({
     onChange?.(currentOptions)
   }
 
+  const formattedOptions = useMemo(() => {
+    const initialValue: Option[] = showSelectAllCheckbox
+      ? [{ label: selectAllLabel, value: '', checked: isAllSelected, onChange: handleSelectAll }]
+      : []
+
+    return nonDisabledOptions.reduce((prev, cur) => {
+      const option: Option = {
+        label: cur.label,
+        disabled: cur.disabled,
+        value: cur.value,
+        checked: cur?.checked || isChecked(cur.value),
+        onChange: cur?.onChange || handleChange
+      }
+
+      return [...prev, option]
+    }, initialValue)
+  }, [options, values])
+
   return (
     <>
       <div className='multiCheck-label' style={labelStyle}>
         {label}
       </div>
       <div className='multiCheck' style={{ columnCount: columns, ...containerStyle }}>
-        {showSelectAllCheckbox ? <CheckBox label={'Select all'} checked={isAllSelected} onChange={handleSelectAll} /> : null}
-        {options.map((option, i) => (
-          <CheckBox key={i} {...option} checked={isChecked(option?.value)} onChange={handleChange} />
+        {formattedOptions.map((option, i) => (
+          <CheckBox key={i} {...option} />
         ))}
       </div>
     </>
