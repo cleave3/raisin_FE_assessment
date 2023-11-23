@@ -38,9 +38,21 @@ describe('MultiCheck', () => {
       expect(container.querySelectorAll('.app-checkbox').length).toEqual(TEST_OPTIONS.length + 1)
     })
 
-    it('should not render the select all checkbox when options is less than one', () => {
+    it('should not render the select All checkbox when options is less than one', () => {
       const { container } = render(<Multicheck options={[]} label={label} onChange={onChange} />)
       expect(container.querySelectorAll('.app-checkbox').length).toBeLessThan(1)
+    })
+
+    it('should replace the Select All label with supplied label', () => {
+      const selectAllLabel = 'Mark All'
+      const { container } = render(<Multicheck options={TEST_OPTIONS} selectAllLabel={selectAllLabel} label={label} onChange={onChange} />)
+      const selectAll = getByLabelText(container, selectAllLabel)
+      expect(selectAll).toBeInTheDocument()
+    })
+
+    it('should not render the select All checkbox when showSelectAll is set to false', () => {
+      const { container } = render(<Multicheck options={TEST_OPTIONS} showSelectAll={false} label={label} onChange={onChange} />)
+      expect(() => getByLabelText(container, 'Select All')).toThrow()
     })
   })
 
@@ -63,9 +75,9 @@ describe('MultiCheck', () => {
       expect(checked.length).toEqual(defaultValues.length)
     })
 
-    it('should select check all when select all is clicked', () => {
+    it('should select check all when select All is clicked', () => {
       const { container } = render(<Multicheck options={TEST_OPTIONS} label={label} onChange={onChange} />)
-      const selectAll = getByLabelText(container, 'Select all')
+      const selectAll = getByLabelText(container, 'Select All')
       fireEvent.click(selectAll)
       expect(onChange).toHaveBeenCalled()
     })

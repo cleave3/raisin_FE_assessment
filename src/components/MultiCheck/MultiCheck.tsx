@@ -99,10 +99,10 @@ const MultiCheck: React.FunctionComponent<Props> = ({
       ? [{ label: selectAllLabel, value: '', checked: isAllSelected, onChange: handleSelectAll }]
       : []
 
-    return nonDisabledOptions.reduce((prev, cur) => {
+    return options.reduce((prev, cur) => {
       const option: Option = {
         label: cur.label,
-        disabled: cur.disabled,
+        disabled: !!cur.disabled,
         value: cur.value,
         checked: cur?.checked || isChecked(cur.value),
         onChange: cur?.onChange || handleChange
